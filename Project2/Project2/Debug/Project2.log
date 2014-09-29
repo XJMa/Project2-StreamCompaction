@@ -1,32 +1,16 @@
-﻿Build started 9/29/2014 2:14:25 PM.
-     1>Project "C:\course\CIS565\Project2-StreamCompaction\Project2\Project2\Project2.vcxproj" on node 2 (build target(s)).
-     1>InitializeBuildStatus:
-         Creating "Debug\Project2.unsuccessfulbuild" because "AlwaysCreate" was specified.
-       AddCudaCompileDeps:
-         c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\cl.exe /E /nologo /showIncludes /TP /D__CUDACC__ /D_MBCS /I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v6.5\include" /I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v6.5\bin" /I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v6.5\include" /I. /FIcuda_runtime.h /c C:\course\CIS565\Project2-StreamCompaction\Project2\Project2\prefixSum.cu 
-       AddCudaCompilePropsDeps:
-       Skipping target "AddCudaCompilePropsDeps" because all output files are up-to-date with respect to the input files.
-       CudaBuild:
-         Compiling CUDA source file prefixSum.cu...
-         cmd.exe /C "C:\Users\xinjie\AppData\Local\Temp\tmp5b2c72d84ed440d8ac633a8a12ce2bfe.cmd"
-         "C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v6.5\bin\nvcc.exe" -gencode=arch=compute_20,code=\"sm_20,compute_20\" --use-local-env --cl-version 2010 -ccbin "c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin"  -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v6.5\include" -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v6.5\include"  -G   --keep-dir Debug -maxrregcount=0  --machine 32 --compile -cudart static  -g   -D_MBCS -Xcompiler "/EHsc /W3 /nologo /Od /Zi /RTC1 /MDd  " -o Debug\prefixSum.cu.obj "C:\course\CIS565\Project2-StreamCompaction\Project2\Project2\prefixSum.cu"
+﻿Build started 9/29/2014 6:21:42 PM.
+     1>Project "C:\course\CIS565\Project2-StreamCompaction\Project2\Project2\Project2.vcxproj" on node 2 (clean target(s)).
+     1>_PrepareForClean:
+         Deleting file "Debug\Project2.lastbuildstate".
+       CudaClean:
+         cmd.exe /C "C:\Users\xinjie\AppData\Local\Temp\tmpe807d7cf708c46feb7b418f14f0a1b53.cmd"
+         "C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v6.5\bin\nvcc.exe" -ccbin "c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin"  -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v6.5\include" -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v6.5\include"  -G   --keep-dir Debug -maxrregcount=0  --machine 32 --compile   -g   -D_MBCS -Xcompiler "/EHsc /W3 /nologo /Od /Zi /RTC1 /MDd  " -o Debug\prefixSum.cu.obj "C:\course\CIS565\Project2-StreamCompaction\Project2\Project2\prefixSum.cu" -clean
          
-         C:\course\CIS565\Project2-StreamCompaction\Project2\Project2>"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v6.5\bin\nvcc.exe" -gencode=arch=compute_20,code=\"sm_20,compute_20\" --use-local-env --cl-version 2010 -ccbin "c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin"  -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v6.5\include" -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v6.5\include"  -G   --keep-dir Debug -maxrregcount=0  --machine 32 --compile -cudart static  -g   -D_MBCS -Xcompiler "/EHsc /W3 /nologo /Od /Zi /RTC1 /MDd  " -o Debug\prefixSum.cu.obj "C:\course\CIS565\Project2-StreamCompaction\Project2\Project2\prefixSum.cu" 
+         C:\course\CIS565\Project2-StreamCompaction\Project2\Project2>"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v6.5\bin\nvcc.exe" -ccbin "c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin"  -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v6.5\include" -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v6.5\include"  -G   --keep-dir Debug -maxrregcount=0  --machine 32 --compile   -g   -D_MBCS -Xcompiler "/EHsc /W3 /nologo /Od /Zi /RTC1 /MDd  " -o Debug\prefixSum.cu.obj "C:\course\CIS565\Project2-StreamCompaction\Project2\Project2\prefixSum.cu" -clean 
          prefixSum.cu
-       ClCompile:
-         All outputs are up-to-date.
-       Link:
-         c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\course\CIS565\Project2-StreamCompaction\Project2\Debug\Project2.exe" /NOLOGO /LIBPATH:"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v6.5\lib\Win32" kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib cudart.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Debug\Project2.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"C:\course\CIS565\Project2-StreamCompaction\Project2\Debug\Project2.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\course\CIS565\Project2-StreamCompaction\Project2\Debug\Project2.lib" /MACHINE:X86 Debug\prefixSum.cu.obj
-         Debug\main.obj
-         LINK : C:\course\CIS565\Project2-StreamCompaction\Project2\Debug\Project2.exe not found or not built by the last incremental link; performing full link
-         Project2.vcxproj -> C:\course\CIS565\Project2-StreamCompaction\Project2\Debug\Project2.exe
-       Manifest:
-         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /outputresource:"C:\course\CIS565\Project2-StreamCompaction\Project2\Debug\Project2.exe;#1" /manifest Debug\Project2.exe.intermediate.manifest
-       FinalizeBuildStatus:
-         Deleting file "Debug\Project2.unsuccessfulbuild".
-         Touching "Debug\Project2.lastbuildstate".
-     1>Done Building Project "C:\course\CIS565\Project2-StreamCompaction\Project2\Project2\Project2.vcxproj" (build target(s)).
+         Deleting file "Debug\prefixSum.cu.deps".
+     1>Done Building Project "C:\course\CIS565\Project2-StreamCompaction\Project2\Project2\Project2.vcxproj" (clean target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:04.06
+Time Elapsed 00:00:00.39

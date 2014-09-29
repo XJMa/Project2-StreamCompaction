@@ -198,7 +198,7 @@ void shiftRight(float * arr, int n){
 	}
 	arr[0] = 0;
 }
-void runCUDA(int n, float *in_arr, float *out_arr){
+void scanGPU(int n, float *in_arr, float *out_arr, int type){
 
 	//dim3 dimBlock(1, 1);//how to decide?
 	//dim3 dimGrid(n, 1); 
@@ -215,38 +215,90 @@ void runCUDA(int n, float *in_arr, float *out_arr){
 	checkCUDAErrorWithLine("Kernel failed!");
 	int n_round = padn(n);
 	//-----------------naive global-----------------------------------------
-	//scan<<<fullBlocksPerGrid, threadsPerBlock>>>(in_arr_d, out_arr_d, n_round);
-	//----------------shared single block-----------------------------------
-	/*scanSharedSingleBlock<<<fullBlocksPerGrid, threadsPerBlock, 2*n*sizeof(float)>>>(in_arr_d, out_arr_d, n);
-	checkCUDAErrorWithLine("Kernel failed!");*/
-	//----------------shared arbitrary length-------------------------------
-	
-	float *sums_d, *incr_d;
-	int sumNum = (int)ceil(float(n)/float(blocksize));
-	int sumsize = sumNum * sizeof(float);
-	cudaMalloc((void**)&sums_d, sumsize);
-	cudaMalloc((void**)&incr_d, sumsize);
-	
-	scanSharedArbitraryLength<<<fullBlocksPerGrid, threadsPerBlock, 2*size>>>(in_arr_d, out_arr_d, n, sums_d);
-	checkCUDAErrorWithLine("Kernel failed!");
-	int sumNum_round = padn(sumNum);
-	scan<<<fullBlocksPerGrid, threadsPerBlock>>>(sums_d, incr_d, sumNum_round);
+	if(type == 1){
+		cudaEvent_t start, stop;
+		cudaEventCreate(&start);
+		cudaEventCreate(&stop);
+		cudaEventRecord( start, 0);
+		for(int i = 0; i < itertimes; i++)
+			scan<<<fullBlocksPerGrid, threadsPerBlock>>>(in_arr_d, out_arr_d, n_round);
+		cudaEventRecord( stop, 0);
+		cudaEventSynchronize( stop );
+		float time = 0.0f;
+		cudaEventElapsedTime( &time, start, stop);
+		cudaEventDestroy(start);
+		cudaEventDestroy(stop);
 
-	/*dim3 sumBlocksPerGrid((int)ceil(sumNum/(float)blocksize));
-	for(int d = 1; (int)pow(2.0,d-1) <= sumNum ;d++){
-		getIncr<<<sumBlocksPerGrid, threadsPerBlock>>>(sums_d, incr_d, sumNum, d);
-		cudaThreadSynchronize();
-		float *temp = sums_d;
-		sums_d = incr_d;
-		incr_d = temp;
-	}*/
-	checkCUDAErrorWithLine("Kernel failed!");
-	addIncr<<<fullBlocksPerGrid, threadsPerBlock>>>(incr_d, out_arr_d, n);
-	checkCUDAErrorWithLine("Kernel failed!");
-	cudaDeviceSynchronize();
-	cudaFree(sums_d);
-	cudaFree(incr_d);
-	
+		printf(" %.4f ms \n", time);
+	}
+	//----------------shared single block-----------------------------------
+	if(type == 2){
+		
+		
+
+			int sumNum = (int)ceil(float(n)/float(blocksize));
+			if(sumNum < 1){
+				cudaEvent_t start, stop;
+				cudaEventCreate(&start);
+				cudaEventCreate(&stop);
+				cudaEventRecord( start, 0);
+				for(int i = 0; i < itertimes; i++){
+					scanSharedSingleBlock<<<fullBlocksPerGrid, threadsPerBlock, 2*n*sizeof(float)>>>(in_arr_d, out_arr_d, n);
+				}
+				cudaEventRecord( stop, 0);
+				cudaEventSynchronize( stop );
+				float time = 0.0f;
+				cudaEventElapsedTime( &time, start, stop);
+				cudaEventDestroy(start);
+				cudaEventDestroy(stop);
+
+				printf(" %.4f ms \n", time);
+				checkCUDAErrorWithLine("Kernel failed!");
+			}
+		//----------------shared arbitrary length-------------------------------
+			else{
+				float *sums_d, *incr_d;
+				int sumsize = sumNum * sizeof(float);
+				cudaMalloc((void**)&sums_d, sumsize);
+				cudaMalloc((void**)&incr_d, sumsize);
+				
+				cudaEvent_t start, stop;
+				cudaEventCreate(&start);
+				cudaEventCreate(&stop);
+				cudaEventRecord( start, 0);
+				for(int i = 0; i < itertimes; i++){
+					scanSharedArbitraryLength<<<fullBlocksPerGrid, threadsPerBlock, 2*n_round*sizeof(float)>>>(in_arr_d, out_arr_d, n_round, sums_d);
+				}
+				cudaEventRecord( stop, 0);
+				cudaEventSynchronize( stop );
+				float time = 0.0f;
+				cudaEventElapsedTime( &time, start, stop);
+				cudaEventDestroy(start);
+				cudaEventDestroy(stop);
+
+				printf(" %.4f ms \n", time);
+				checkCUDAErrorWithLine("Kernel failed!");
+				int sumNum_round = padn(sumNum);
+				scan<<<fullBlocksPerGrid, threadsPerBlock>>>(sums_d, incr_d, sumNum_round);
+
+				/*dim3 sumBlocksPerGrid((int)ceil(sumNum/(float)blocksize));
+				for(int d = 1; (int)pow(2.0,d-1) <= sumNum ;d++){
+					getIncr<<<sumBlocksPerGrid, threadsPerBlock>>>(sums_d, incr_d, sumNum, d);
+					cudaThreadSynchronize();
+					float *temp = sums_d;
+					sums_d = incr_d;
+					incr_d = temp;
+				}*/
+				checkCUDAErrorWithLine("Kernel failed!");
+				addIncr<<<fullBlocksPerGrid, threadsPerBlock>>>(incr_d, out_arr_d, n);
+				checkCUDAErrorWithLine("Kernel failed!");
+				cudaDeviceSynchronize();
+				cudaFree(sums_d);
+				cudaFree(incr_d);
+			}
+		
+		
+	}
 	
 
 	
@@ -276,13 +328,25 @@ void scatterGPU(int n, float *in_arr, float *out_arr){
 	cudaMalloc((void**)&arr_postScan, size);
 	cudaMalloc((void**)&arr_scan, size);
 
-	scatterSetup<<<fullBlocksPerGrid, threadsPerBlock>>>(in_arr_d, arr_preScan, n);
-	checkCUDAErrorWithLine("Kernel failed!");
-	ScanAdd<<<fullBlocksPerGrid, threadsPerBlock>>>(arr_preScan, arr_postScan, n);
-	checkCUDAErrorWithLine("Kernel failed!");
-	scatterShift<<<fullBlocksPerGrid, threadsPerBlock>>>(arr_postScan, arr_scan, n);
-	checkCUDAErrorWithLine("Kernel failed!");
-	scatter<<<fullBlocksPerGrid, threadsPerBlock>>>(in_arr_d, arr_scan, out_arr_d, n);
+	cudaEvent_t start, stop;
+	cudaEventCreate(&start);
+	cudaEventCreate(&stop);
+	cudaEventRecord( start, 0);
+	for(int i = 0; i < itertimes; i++){
+		scatterSetup<<<fullBlocksPerGrid, threadsPerBlock>>>(in_arr_d, arr_preScan, n);
+		ScanAdd<<<fullBlocksPerGrid, threadsPerBlock>>>(arr_preScan, arr_postScan, n);
+		scatterShift<<<fullBlocksPerGrid, threadsPerBlock>>>(arr_postScan, arr_scan, n);
+		scatter<<<fullBlocksPerGrid, threadsPerBlock>>>(in_arr_d, arr_scan, out_arr_d, n);
+	}
+	cudaEventRecord( stop, 0);
+	cudaEventSynchronize( stop );
+	float time = 0.0f;
+	cudaEventElapsedTime( &time, start, stop);
+	cudaEventDestroy(start);
+	cudaEventDestroy(stop);
+
+	printf(" %.4f ms \n", time);
+	
 	checkCUDAErrorWithLine("Kernel failed!");
 	//cudaDeviceSynchronize();
 	cudaMemcpy(out_arr, out_arr_d, size, cudaMemcpyDeviceToHost);
