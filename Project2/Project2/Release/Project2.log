@@ -1,0 +1,26 @@
+﻿Build started 9/28/2014 5:07:29 PM.
+     1>Project "C:\course\CIS565\Project2-StreamCompaction\Project2\Project2\Project2.vcxproj" on node 2 (build target(s)).
+     1>PrepareForBuild:
+         Creating directory "C:\course\CIS565\Project2-StreamCompaction\Project2\Release\".
+       InitializeBuildStatus:
+         Creating "Release\Project2.unsuccessfulbuild" because "AlwaysCreate" was specified.
+       AddCudaCompileDeps:
+         c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\cl.exe /E /nologo /showIncludes /TP /D__CUDACC__ /D_MBCS /I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v6.5\include" /I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v6.5\bin" /I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v6.5\include" /I. /FIcuda_runtime.h /c C:\course\CIS565\Project2-StreamCompaction\Project2\Project2\prefixSum.cu 
+       CudaBuild:
+         Compiling CUDA source file prefixSum.cu...
+         cmd.exe /C "C:\Users\xinjie\AppData\Local\Temp\tmpc1851bb45bf54524907b74801438c7c6.cmd"
+         "C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v6.5\bin\nvcc.exe" -gencode=arch=compute_20,code=\"sm_20,compute_20\" --use-local-env --cl-version 2010 -ccbin "c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin"  -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v6.5\include" -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v6.5\include"     --keep-dir Release -maxrregcount=0  --machine 32 --compile -cudart static     -D_MBCS -Xcompiler "/EHsc /W3 /nologo /O2 /Zi  /MD  " -o Release\prefixSum.cu.obj "C:\course\CIS565\Project2-StreamCompaction\Project2\Project2\prefixSum.cu"
+         
+         C:\course\CIS565\Project2-StreamCompaction\Project2\Project2>"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v6.5\bin\nvcc.exe" -gencode=arch=compute_20,code=\"sm_20,compute_20\" --use-local-env --cl-version 2010 -ccbin "c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin"  -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v6.5\include" -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v6.5\include"     --keep-dir Release -maxrregcount=0  --machine 32 --compile -cudart static     -D_MBCS -Xcompiler "/EHsc /W3 /nologo /O2 /Zi  /MD  " -o Release\prefixSum.cu.obj "C:\course\CIS565\Project2-StreamCompaction\Project2\Project2\prefixSum.cu" 
+     1>C:/course/CIS565/Project2-StreamCompaction/Project2/Project2/prefixSum.cu(8): error : redefinition of default argument
+         
+     1>C:/course/CIS565/Project2-StreamCompaction/Project2/Project2/prefixSum.cu(24): warning : expression has no effect
+         
+         1 error detected in the compilation of "C:/Users/xinjie/AppData/Local/Temp/tmpxft_00001adc_00000000-5_prefixSum.cpp1.ii".
+         prefixSum.cu
+     1>C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\BuildCustomizations\CUDA 6.5.targets(593,9): error MSB3721: The command ""C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v6.5\bin\nvcc.exe" -gencode=arch=compute_20,code=\"sm_20,compute_20\" --use-local-env --cl-version 2010 -ccbin "c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin"  -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v6.5\include" -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v6.5\include"     --keep-dir Release -maxrregcount=0  --machine 32 --compile -cudart static     -D_MBCS -Xcompiler "/EHsc /W3 /nologo /O2 /Zi  /MD  " -o Release\prefixSum.cu.obj "C:\course\CIS565\Project2-StreamCompaction\Project2\Project2\prefixSum.cu"" exited with code 2.
+     1>Done Building Project "C:\course\CIS565\Project2-StreamCompaction\Project2\Project2\Project2.vcxproj" (build target(s)) -- FAILED.
+
+Build FAILED.
+
+Time Elapsed 00:00:01.67
